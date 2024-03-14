@@ -1,0 +1,275 @@
+.app-component-container {
+  width: 100%;
+  display: grid;
+  grid-gap: var(--dl-space-space-twounits);
+  position: relative;
+  padding-bottom: var(--dl-space-space-fourunits);
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.app-component-testimonial-card {
+  display: flex;
+  padding: var(--dl-space-space-twounits);
+  max-width: var(--dl-size-size-maxwidth);
+  background: #fff;
+  box-shadow: 5px 5px 10px 0px rgba(54, 54, 54, 0.72);
+  transition: 0.3s;
+  align-items: center;
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app-component-icon {
+  width: 2rem;
+  margin-bottom: var(--dl-space-space-twounits);
+}
+.app-component-testimonial {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.app-component-text {
+  color: var(--dl-color-gray-500);
+  font-size: 20px;
+  text-align: center;
+  font-family: "Poppins";
+  margin-bottom: var(--dl-space-space-threeunits);
+}
+.app-component-text1 {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-family: "Poppins";
+  font-weight: 400;
+  margin-bottom: var(--dl-space-space-halfunit);
+}
+.app-component-text2 {
+  color: var(--dl-color-gray-500);
+  font-weight: 600;
+  margin-bottom: var(--dl-space-space-unit);
+  text-transform: uppercase;
+}
+.app-component-image {
+  width: var(--dl-size-size-large);
+  height: var(--dl-size-size-large);
+  box-shadow: 5px 5px 10px 0px #d4d4d4,5px 5px 10px 0px #d4d4d4;
+  object-fit: cover;
+  border-radius: var(--dl-radius-radius-20px);
+  animation-name: headShake;
+  animation-delay: 0s;
+  animation-duration: 300ms;
+  animation-direction: normal;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+.app-component-testimonial-card1 {
+  display: flex;
+  padding: var(--dl-space-space-twounits);
+  position: relative;
+  max-width: var(--dl-size-size-maxwidth);
+  background: #fff;
+  box-shadow: 5px 5px 10px 0px rgba(18, 18, 18, 0.1),5px 5px 10px 0px rgba(54, 54, 54, 0.72),5px 5px 10px 0px #949393,5px 5px 10px 0px #908f8f;
+  transition: 0.3s;
+  align-items: center;
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app-component-icon2 {
+  width: 2rem;
+  margin-bottom: var(--dl-space-space-twounits);
+}
+.app-component-testimonial1 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.app-component-text3 {
+  color: var(--dl-color-gray-500);
+  font-size: 20px;
+  text-align: center;
+  font-family: "Poppins";
+  margin-bottom: var(--dl-space-space-threeunits);
+}
+.app-component-text4 {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-family: "Poppins";
+  font-weight: 400;
+  margin-bottom: var(--dl-space-space-halfunit);
+}
+.app-component-text5 {
+  color: var(--dl-color-gray-500);
+  font-weight: 600;
+  margin-bottom: var(--dl-space-space-unit);
+  text-transform: uppercase;
+}
+.app-component-image1 {
+  width: var(--dl-size-size-large);
+  height: var(--dl-size-size-large);
+  box-shadow: 5px 5px 10px 0px #d4d4d4,5px 5px 10px 0px #d4d4d4;
+  object-fit: cover;
+  border-radius: var(--dl-radius-radius-20px);
+  animation-name: headShake;
+  animation-delay: 0s;
+  animation-duration: 300ms;
+  animation-direction: normal;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+.app-component-testimonial-card2 {
+  display: flex;
+  padding: var(--dl-space-space-twounits);
+  max-width: var(--dl-size-size-maxwidth);
+  background: #fff;
+  box-shadow: 5px 5px 10px 0px rgba(54, 54, 54, 0.72);
+  transition: 0.3s;
+  align-items: center;
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app-component-icon4 {
+  width: 2rem;
+  margin-bottom: var(--dl-space-space-twounits);
+}
+.app-component-testimonial2 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.app-component-text6 {
+  color: var(--dl-color-gray-500);
+  font-size: 20px;
+  text-align: center;
+  font-family: "Poppins";
+  margin-bottom: var(--dl-space-space-threeunits);
+}
+.app-component-text7 {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-family: "Poppins";
+  font-weight: 400;
+  margin-bottom: var(--dl-space-space-halfunit);
+}
+.app-component-text8 {
+  color: var(--dl-color-gray-500);
+  font-weight: 600;
+  margin-bottom: var(--dl-space-space-unit);
+  text-transform: uppercase;
+}
+.app-component-image2 {
+  width: var(--dl-size-size-large);
+  height: var(--dl-size-size-large);
+  box-shadow: 5px 5px 10px 0px #d4d4d4,5px 5px 10px 0px #d4d4d4;
+  object-fit: cover;
+  border-radius: var(--dl-radius-radius-20px);
+  animation-name: headShake;
+  animation-delay: 0s;
+  animation-duration: 300ms;
+  animation-direction: normal;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+@media(max-width: 1440px) {
+  .app-component-text1 {
+    align-self: center;
+    text-align: center;
+  }
+  .app-component-text4 {
+    align-self: center;
+    text-align: center;
+  }
+  .app-component-text7 {
+    align-self: center;
+    text-align: center;
+  }
+}
+@media(max-width: 991px) {
+  .app-component-container {
+    grid-template-columns: 1fr;
+  }
+  .app-component-text2 {
+    align-self: center;
+  }
+  .app-component-text5 {
+    align-self: center;
+  }
+  .app-component-text8 {
+    align-self: center;
+  }
+}
+@media(max-width: 767px) {
+  .app-component-testimonial-card {
+    padding-left: var(--dl-space-space-twounits);
+    padding-right: var(--dl-space-space-twounits);
+  }
+  .app-component-testimonial-card1 {
+    padding-left: var(--dl-space-space-twounits);
+    padding-right: var(--dl-space-space-twounits);
+  }
+  .app-component-testimonial-card2 {
+    padding-left: var(--dl-space-space-twounits);
+    padding-right: var(--dl-space-space-twounits);
+  }
+}
+@media(max-width: 479px) {
+  .app-component-testimonial-card {
+    padding-top: var(--dl-space-space-twounits);
+    padding-left: var(--dl-space-space-unit);
+    padding-right: var(--dl-space-space-unit);
+    padding-bottom: var(--dl-space-space-twounits);
+  }
+  .app-component-icon {
+    margin-bottom: var(--dl-space-space-unit);
+  }
+  .app-component-text {
+    margin-bottom: var(--dl-space-space-twounits);
+  }
+  .app-component-text1 {
+    margin-bottom: var(--dl-space-space-halfunit);
+  }
+  .app-component-text2 {
+    margin-bottom: var(--dl-space-space-unit);
+  }
+  .app-component-testimonial-card1 {
+    padding-top: var(--dl-space-space-twounits);
+    padding-left: var(--dl-space-space-unit);
+    padding-right: var(--dl-space-space-unit);
+    padding-bottom: var(--dl-space-space-twounits);
+  }
+  .app-component-icon2 {
+    margin-bottom: var(--dl-space-space-unit);
+  }
+  .app-component-text3 {
+    margin-bottom: var(--dl-space-space-twounits);
+  }
+  .app-component-text4 {
+    margin-bottom: var(--dl-space-space-halfunit);
+  }
+  .app-component-text5 {
+    margin-bottom: var(--dl-space-space-unit);
+  }
+  .app-component-testimonial-card2 {
+    padding-top: var(--dl-space-space-twounits);
+    padding-left: var(--dl-space-space-unit);
+    padding-right: var(--dl-space-space-unit);
+    padding-bottom: var(--dl-space-space-twounits);
+  }
+  .app-component-icon4 {
+    margin-bottom: var(--dl-space-space-unit);
+  }
+  .app-component-text6 {
+    margin-bottom: var(--dl-space-space-twounits);
+  }
+  .app-component-text7 {
+    margin-bottom: var(--dl-space-space-halfunit);
+  }
+  .app-component-text8 {
+    margin-bottom: var(--dl-space-space-unit);
+  }
+}

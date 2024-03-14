@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <title>PPLG-ONE Anestar</title>
+    <meta name="description" content="Our Classroom Website" />
+    <meta property="og:title" content="PPLG-ONE Anestar" />
+    <meta property="og:description" content="Our Classroom Website" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Source Sans Pro;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/animate.css@4.1.1/animate.css"
+    />
+    <link
+      rel="shortcut icon"
+      href="public/programming-code-svgrepo-com.svg"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
+    />
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+      ScrollReveal({ reset: true });
+    </script>
+  </head>
+  <body>
+    <link rel="stylesheet" href="./style.css" />
+    <div>
+      <link href="./index.css" rel="stylesheet" />
+
+      <div class="home-container">
+        <header data-thq="thq-navbar" class="home-navbar">
+          <a href="#bottom" class="home-link">
+            <img
+              alt="image"
+              src="public/pplg-oneadas-1500h.png"
+              class="home-image"
+            />
+          </a>
+          <div
+            data-thq="thq-navbar-nav"
+            data-role="Nav"
+            class="home-desktop-menu"
+          >
+            <nav
+              data-thq="thq-navbar-nav-links"
+              data-role="Nav"
+              class="home-nav"
+            >
+              <a href="#home" class="home-link01 navLink">Home</a>
+              <a href="#about" class="home-link02 navLink">About</a>
+              <a href="#students" class="home-link03 navLink">Students</a>
+              <a href="#teachers" class="home-link04 navLink">Teachers</a>
+              <a href="#gallery" class="home-link05 navLink">Gallery</a>
+            </nav>
+          </div>
+          <div data-thq="thq-burger-menu" class="home-burger-menu">
+            <svg viewBox="0 0 1024 1024" class="home-icon">
+              <path
+                d="M128 554.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 298.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 810.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"
+              ></path>
+            </svg>
+          </div>
+          <div data-thq="thq-mobile-menu" class="home-mobile-menu">
+            <div
+              data-thq="thq-mobile-menu-nav"
+              data-role="Nav"
+              class="home-nav1"
+            >
+              <div class="home-container1">
+                <img
+                  alt="image"
+                  src="public/pplg-one-200h.png"
+                  class="home-image01"
+                />
+                <div data-thq="thq-close-menu" class="home-menu-close">
+                  <svg viewBox="0 0 1024 1024" class="home-icon02">
+                    <path
+                      d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <nav
+                data-thq="thq-mobile-menu-nav-links"
+                data-role="Nav"
+                class="home-nav2"
+              >
+                <a href="#home" class="home-link06 navLink">Home</a>
+                <a href="#about" class="home-link07 navLink">About</a>
+                <a href="#students" class="home-link08 navLink">
+                  <span>Students</span>
+                  <br />
+                </a>
+                <a href="#teachers" class="home-link09 navLink">Teachers</a>
+                <a href="#gallery" class="home-link10 navLink">
+                  <span class="home-text02">Gallery</span>
+                  <br />
+                  <br />
+                </a>
+              </nav>
+            </div>
+          </div>
+        </header>
+        <section class="home-hero">
+          <div id="home" class="home-background">
+            <img
+              alt="image"
+              src="public/circle-background.svg"
+              class="home-image02"
+            />
+          </div>
+          <div id="homee" class="home-hero-content">
+            <h1 class="home-text05">
+              Welcome to our classroom website! We're excited to have you here.
+            </h1>
+            <div class="home-caption">
+              <animate-on-reveal
+                animation="jello"
+                duration="1000ms"
+                delay="0s"
+                direction="alternate"
+                easing="ease-in"
+                iteration="1"
+              >
+                <a
+                  href="#students"
+                  data-thq-animate-on-reveal="true"
+                  class="home-hello-button button-style-1 button"
+                >
+                  <span class="home-text06">
+                    <span class="home-text07">Hello</span>
+                    <br />
+                    <span>Viewer</span>
+                    <br />
+                  </span>
+                </a>
+              </animate-on-reveal>
+              <p class="home-caption1">Kuasai teknologi, atur masa depanmu!</p>
+            </div>
+          </div>
+        </section>
+        <section class="home-notes">
+          <div id="hero" class="home-first">
+            <div id="about" data-aos="fade-up-right" class="home-content">
+              <animate-on-reveal animation="none">
+                <h2 data-thq-animate-on-reveal="true" class="home-header">
+                  Teknologi bagaikan pedang bermata dua. Di satu sisi, ia
+                  menawarkan kekuatan dan kemudahan yang tak terbayangkan,
+                  membuka pintu menuju dunia baru yang penuh kemungkinan. Di
+                  sisi lain, ia juga dapat menjadi alat kontrol yang berbahaya,
+                  menjerumuskan kita ke dalam ilusi dan manipulasi.
+                </h2>
+              </animate-on-reveal>
+            </div>
+            <img
+              alt="image"
+              src="https://lh3.googleusercontent.com/pw/AP1GczP1D7zzco2FG2HE-T6N5R5EqWmmHgZhqLyzou1PmybSLvsWIAn1dq70sH6v1pf9OhaiZw23GstpQ6RTBW5HEn4bnHuyAXgGopN0oFEfcaFLEKMCe5cWAkLq2mcR1DxDBmbjk9OnG05cpe23PWdlMjmi=w1477-h1108-s-no-gm?authuser=1"
+              class="home-image03 image-notes"
+            />
+          </div>
+          <div class="home-second">
+            <div data-aos="fade-up-left" class="home-content1">
+              <animate-on-reveal
+                animation="headShake"
+                duration="300ms"
+                delay="0s"
+                direction="normal"
+                easing="ease"
+                iteration="1"
+              >
+                <h2 data-thq-animate-on-reveal="true" class="home-header1">
+                  Di atas segalanya, teknologi adalah alat. Ia tunduk pada
+                  kehendak manusia, siap untuk diarahkan dan dikendalikan. Masa
+                  depan teknologi bukan ditentukan oleh mesin, melainkan oleh
+                  pilihan yang kita buat hari ini.
+                </h2>
+              </animate-on-reveal>
+            </div>
+            <img
+              alt="image"
+              src="https://lh3.googleusercontent.com/pw/AP1GczOEj9TINDz2vXcG-7MPlPb0m1efqBIYsSUTYYvazivmdM7XzLL2q0vlW210Ox--g_yku1vStPdfzUqbAGx0wAGb9-ee_rze402g5q3zAl9HNTZsRJd-8n-XPHSJ9miYeFyAKLKGUZomGABp0nQkiliB=w1477-h1108-s-no-gm?authuser=1"
+              class="home-image04 image-notes"
+            />
+          </div>
+        </section>
+        <section class="home-speakers">
+          <animate-on-reveal
+            animation="headShake"
+            duration="300ms"
+            delay="0s"
+            direction="normal"
+            easing="ease"
+            iteration="1"
+          >
+            <div
+              id="students"
+              data-thq-animate-on-reveal="true"
+              class="home-container2"
+            >
+              <h1 id="student" class="home-text11">students.</h1>
+              <animate-on-reveal
+                animation="headShake"
+                duration="300ms"
+                delay="0s"
+                direction="normal"
+                easing="ease"
+                iteration="1"
+              >
+                <span data-thq-animate-on-reveal="true" class="home-text12">
+                  Warga Pengembangan Perangkat Lunak dan GIM - The One And Only.
+                </span>
+              </animate-on-reveal>
+              <div class="home-container3">
+                <div class="home-testimonial-card">
+                  <svg viewBox="0 0 950.8571428571428 1024" class="home-icon04">
+                    <path
+                      d="M438.857 182.857v402.286c0 161.143-131.429 292.571-292.571 292.571h-36.571c-20 0-36.571-16.571-36.571-36.571v-73.143c0-20 16.571-36.571 36.571-36.571h36.571c80.571 0 146.286-65.714 146.286-146.286v-18.286c0-30.286-24.571-54.857-54.857-54.857h-128c-60.571 0-109.714-49.143-109.714-109.714v-219.429c0-60.571 49.143-109.714 109.714-109.714h219.429c60.571 0 109.714 49.143 109.714 109.714zM950.857 182.857v402.286c0 161.143-131.429 292.571-292.571 292.571h-36.571c-20 0-36.571-16.571-36.571-36.571v-73.143c0-20 16.571-36.571 36.571-36.571h36.571c80.571 0 146.286-65.714 146.286-146.286v-18.286c0-30.286-24.571-54.857-54.857-54.857h-128c-60.571 0-109.714-49.143-109.714-109.714v-219.429c0-60.571 49.143-109.714 109.714-109.714h219.429c60.571 0 109.714 49.143 109.714 109.714z"
+                    ></path>
+                  </svg>
+                  <div class="home-testimonial">
+                    <span class="home-text13">
+                      "Ngoding mah bikin pusing, mending ngewibu. Kalo gak
+                      stress ya cabul."
+                    </span>
+                    <span class="home-text14">Cahya Maulana Jan</span>
+                    <span class="home-text15">KETUA KELAS</span>
+                    <a
+                      href="https://www.instagram.com/cahya158_?igsh=MTRyd2Q0ZG5vaXR6ZQ=="
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      class="home-link11"
+                    >
+                      <img
+                        alt="cahya"
+                        src="https://lh3.googleusercontent.com/pw/AP1GczPfE8MGatQe5_F4bwr9Om4oyXahvbS4MO0R6DRfftT9QuEmtXByeWpH0efMtr4Pl3PszVs8J51gbNFIZTSg-1WNprUXmzwKo-R9cp1wSbuuX9mXNE9cYMx12X7I0_5L-flkl-7V6cR5nIwDE34HO1LP=w951-h1268-s-no-gm?authuser=1"
+                        loading="eager"
+                        class="home-image05"
+                      />
+                    </a>
+                  </div>
+                </div>
+                <div class="home-testimonial-card1">
+                  <svg
+                    id="f4del"
+                    viewBox="0 0 950.8571428571428 1024"
+                    class="home-icon06"
+                  >
+                    <path
+                      d="M438.857 182.857v402.286c0 161.143-131.429 292.571-292.571 292.571h-36.571c-20 0-36.571-16.571-36.571-36.571v-73.143c0-20 16.571-36.571 36.571-36.571h36.571c80.571 0 146.286-65.714 146.286-146.286v-18.286c0-30.286-24.571-54.857-54.857-54.857h-128c-60.571 0-109.714-49.143-109.714-109.714v-219.429c0-60.571 49.143-109.714 109.714-109.714h219.429c60.571 0 109.714 49.143 109.714 109.714zM950.857 182.857v402.286c0 161.143-131.429 292.571-292.571 292.571h-36.571c-20 0-36.571-16.571-36.571-36.571v-73.143c0-20 16.571-36.571 36.571-36.571h36.571c80.571 0 146.286-65.714 146.286-146.286v-18.286c0-30.286-24.571-54.857-54.857-54.857h-128c-60.571 0-109.714-49.143-109.714-109.714v-219.429c0-60.571 49.143-109.714 109.714-109.714h219.429c60.571 0 109.714 49.143 109.714 109.714z"
+                    ></path>
+                  </svg>
+                  <div class="home-testimonial1">
+                    <span class="home-text16">
+                      "Manipulation is the art of Persuation."
+                    </span>
+                    <span class="home-text17">Muhammad Fadel Alexander</span>
+                    <span class="home-text18">SIE. KEAMANAN</span>
+                    <a
+                      href="https://www.instagram.com/muhfdelxander?igsh=MWppcXB0Yzg1OTd3ZQ=="
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      class="home-link12"
+                    >
+                      <img
+                        id="fadel"
+                        alt="fadel"
+                        src="https://lh3.googleusercontent.com/pw/AP1GczPSJdLs_P_okF1QrgLF6QxI-WmwXMIzhxEofJqtbbpSk_710wnejSihy_GIXgrtjASjbqnCjmHMWiN2nnGNV5y8tHDI71aEQWcNNWY-8-Ck8Wt5CCr0-KXvWBkluDtnF3Zti5wOQ9wvXZ1DAjCweb51=w997-h997-s-no-gm?authuser=1"
+                        loading="eager"
+                        class="home-image06"
+                      />
+                    </a>
+                  </div>
+                </div>
+                <div class="home-testimonial-card2">
+                  <svg viewBox="0 0 950.8571428571428 1024" class="home-icon08">
+                    <path
+                      d="M438.857 182.857v402.286c0 161.143-131.429 292.571-292.571 292.571h-36.571c-20 0-36.571-16.571-36.571-36.571v-73.143c0-20 16.571-36.571 36.571-36.571h36.571c80.571 0 146.286-65.714 146.286-146.286v-18.286c0-30.286-24.571-54.857-54.857-54.857h-128c-60.571 0-109.714-49.143-109.714-109.714v-219.429c0-60.571 49.143-109.714 109.714-109.714h219.429c60.571 0 109.714 49.143 109.714 109.714zM950.857 182.857v402.286c0 161.143-131.429 292.571-292.571 292.571h-36.571c-20 0-36.571-16.571-36.571-36.571v-73.143c0-20 16.571-36.571 36.571-36.571h36.571c80.571 0 146.286-65.714 146.286-146.286v-18.286c0-30.286-24.571-54.857-54.857-54.857h-128c-60.571 0-109.714-49.143-109.714-109.714v-219.429c0-60.571 49.143-109.714 109.714-109.714h219.429c60.571 0 109.714 49.143 109.714 109.714z"
+                    ></path>
+                  </svg>
+                  <div class="home-testimonial2">
+                    <span class="home-text19">
+                      "Pergilah sejauh mungkin, dan kembalilah dengan keadaan
+                      hidup."
+                    </span>
+                    <span class="home-text20">Dhony Fujianto</span>
+                    <span class="home-text21">SIE. KEBERSIHAN</span>
+                    <a
+                      href="https://www.instagram.com/donii_.7127?igsh=Mm0yMWczb3l1c282"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      class="home-link13"
+                    >
+                      <img
+                        alt="profile"
+                        src="https://lh3.googleusercontent.com/pw/AP1GczPOSEYWeBcJeYFzFK_QXJR_lgzqRRJD-9pCn1xQqWPeARcQM1fEPd8XGTe-F2C3DWPIb4pz6dLB00JQbuesjhV-NdFcsEHoKGkEtk3iluBzu3TL95AASy5yQZi0qD4LnlOXJrjskeyDj7GWk_meAJMU=w293-h293-s-no-gm?authuser=0"
+                        loading="eager"
+                        class="home-image07"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="home-pricing"></div>
+              <animate-on-reveal
+                animation="wobble"
+                duration="2000ms"
+                delay="200ms"
+                direction="normal"
+                easing="ease"
+                iteration="1"
+              >
+                <img
+                  alt="image"
+                  src="https://lh3.googleusercontent.com/pw/AP1GczPcGQAjJrFO64eCWkhRC9MVb1u_QWqNAwaDldPjG8jmWwkaKmtamdXQrh2rRSJZ9wg0y0lcENqYW2vnAvuN3SxXPHqi1CIgKBb-MpqpTnqf-HZO3hma5wllck7Klea7FIyw0H-fTLELSozjxigDjrQG=w1080-h1080-s-no-gm?authuser=0"
+                  data-thq-animate-on-reveal="true"
+                  class="home-image08"
+                />
+              </animate-on-reveal>
+            </div>
+          </animate-on-reveal>
+          <animate-on-reveal
+            animation="shakeX"
+            duration="300ms"
+            delay="0s"
+            direction="normal"
+            easing="linear"
+            iteration="1"
+          >
+            <h1
+              id="teachers."
+              data-thq-animate-on-reveal="true"
+              class="home-text22"
+            >
+              <span>teachers.</span>
+              <br />
+            </h1>
+          </animate-on-reveal>
+          <span class="home-text25">
+            Daftar Wali Kelas kami dari kelas X, XI, dan XII
+          </span>
+          <div id="teachers" class="home-blog">
+            <div class="home-container4">
+              <div
+                class="blog-post-card2-blog-post-card blog-post-card2-root-class-name3"
+              >
+                <img
+                  alt="yulianti"
+                  src="https://lh3.googleusercontent.com/pw/AP1GczMy54lKnIILYZlNaLjUIn0F_2NrJl-iDxZdccVUxGoaYdpp3ZJO8PjP_jWGexnUbmElFAfJWXUzfyk6-Ytpe6IsAGUscbkqmttJ8YswTxcjYQC8TqVy5_ahmz3V15hdgeURgDTO-JqLv_aNQk80tMYM=w570-h1268-s-no-gm?authuser=0"
+                  image_src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&amp;ixlib=rb-1.2.1&amp;h=1000"
+                  class="blog-post-card2-image"
+                />
+                <div class="blog-post-card2-container">
+                  <div class="blog-post-card2-container1"></div>
+                  <h1 class="blog-post-card2-text">
+                    <span>Yulianti, S.Sn. (Kelas X)</span>
+                  </h1>
+                  <span class="blog-post-card2-text1">
+                    <span>
+                      Beliau adalah wali kelas yang kreatif dan inovatif. Beliau
+                      sering menggunakan metode pembelajaran yang menarik dan
+                      menantang untuk meningkatkan minat belajar siswa-siswinya.
+                      Beliau juga selalu terbuka terhadap ide-ide baru dan
+                      selalu berusaha memberikan yang terbaik bagi
+                      siswa-siswinya.
+                    </span>
+                  </span>
+                  <div class="blog-post-card2-container2"></div>
+                </div>
+              </div>
+            </div>
+            <div class="home-container5">
+              <div
+                class="blog-post-card2-blog-post-card blog-post-card2-root-class-name"
+              >
+                <img
+                  alt="image"
+                  src="https://scontent.fcgk3-4.fna.fbcdn.net/v/t1.6435-9/102701903_10217631797052672_1259341384152361163_n.jpg?_nc_cat=102&amp;ccb=1-7&amp;_nc_sid=5f2048&amp;_nc_ohc=-skKytfp9rwAX844fVa&amp;_nc_ht=scontent.fcgk3-4.fna&amp;oh=00_AfBArPn8OA1pX9cq0DwfbHuu4zzmi1pjPHOSqQVRNs2K0g&amp;oe=661508DC"
+                  image_src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&amp;ixlib=rb-1.2.1&amp;h=1000"
+                  class="blog-post-card2-image"
+                />
+                <div class="blog-post-card2-container">
+                  <div class="blog-post-card2-container1"></div>
+                  <h1 class="blog-post-card2-text">
+                    <span>Wahib Mudhofir, S.Kom. (Placeholder)</span>
+                  </h1>
+                  <span class="blog-post-card2-text1">
+                    <span>
+                      Beliau adalah guru Pengembangan Perangkat Lunak dan GIM
+                      (PPLG) di SMKN 1 Gantar yang terkenal inspiratif dan asik.
+                      Penuh semangat, Beliau mengajar di jurusan PPLG dengan
+                      cara yang menyenangkan dan mudah dipahami. Beliau selalu
+                      menggunakan teknologi terbaru dan memberikan contoh-contoh
+                      nyata dalam pembelajarannya.
+                    </span>
+                  </span>
+                  <div class="blog-post-card2-container2"></div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="blog-post-card2-blog-post-card blog-post-card2-root-class-name2"
+            >
+              <img
+                alt="image"
+                src="https://scontent.fcgk3-1.fna.fbcdn.net/v/t1.18169-9/19875107_1731332516881636_3605037918305052562_n.jpg?_nc_cat=109&amp;ccb=1-7&amp;_nc_sid=5f2048&amp;_nc_ohc=lUvVvKUh-dwAX-8Add8&amp;_nc_ht=scontent.fcgk3-1.fna&amp;oh=00_AfDo4p4cqY_gAHV2jhFdnKCZbN_n-naE02q0QRMJMbT7Xw&amp;oe=66150489"
+                image_src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fHBvcnRyYWl0fGVufDB8fHx8MTYyNjM3ODk3Mg&amp;ixlib=rb-1.2.1&amp;h=1000"
+                class="blog-post-card2-image"
+              />
+              <div class="blog-post-card2-container">
+                <div class="blog-post-card2-container1"></div>
+                <h1 class="blog-post-card2-text">
+                  <span>Haryono Suhendro, ST., MA., M.Pd. (Placeholder)</span>
+                </h1>
+                <span class="blog-post-card2-text1">
+                  <span>
+                    Sebagai kepala SMKN 1 Gantar, terkenal tegas dan jujur.
+                    Beliau tak ragu menegur siswa yang nakal, tapi selalu siap
+                    membantu mereka yang kesulitan. Berkat Pak Haryono, SMKN 1
+                    Gantar menjadi sekolah berprestasi dan bermoral. Murid-murid
+                    dididik menjadi generasi penerus bangsa yang cerdas dan
+                    bermoral.
+                  </span>
+                </span>
+                <div class="blog-post-card2-container2"></div>
+              </div>
+            </div>
+          </div>
+          <a
+            href="https://photos.app.goo.gl/qX88CUgibjmB3E3b6"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="home-link14"
+          >
+            <h1 id="gallery." class="home-link15">
+              <span>gallery.</span>
+              <br />
+            </h1>
+          </a>
+          <span class="home-text28">
+            Kenangan yang selalu ada di album photos
+          </span>
+          <div id="gallery" class="home-gallery">
+            <div
+              class="gallery-card1-gallery-card gallery-card1-root-class-name"
+            >
+              <img
+                alt="image"
+                src="https://lh3.googleusercontent.com/pw/AP1GczOffb6cdg4wEhS3FmekNNxsAbbfeP6-gXGRtBWFxp7Z7RuyQptExAuoQeeuEEZmlje3DgYU03-aajo5rYuBedK06vcoZGJvqhHH03bU2UAUwNrCLMTSL3HT1BitgCR9xgLELXeEzWSxMKIs0TDOneKk=w1600-h719-s-no-gm?authuser=0"
+                class="gallery-card1-image"
+              />
+              <h2 class="gallery-card1-text"><span>PORAK 2023</span></h2>
+            </div>
+            <div
+              class="gallery-card1-gallery-card gallery-card1-root-class-name1"
+            >
+              <img
+                alt="image"
+                src="https://lh3.googleusercontent.com/pw/AP1GczNWgXCw9ZhgxbndKXDNDuqSvagGIe9-RTM1vZCWJMu609xjdKAF-gaqnPZfxxrlOQtzfaLVhNbUR1GdBGDxxGeIjLFFflEzKf25JmmUT6GHZmbTIfdy1QhUZ5W0-IU2kgz8SftaHGrmPB3MxUhWrEAz=w1329-h997-s-no-gm?authuser=1"
+                class="gallery-card1-image"
+              />
+              <h2 class="gallery-card1-text"><span>LAB</span></h2>
+            </div>
+            <div
+              class="gallery-card1-gallery-card gallery-card1-root-class-name2"
+            >
+              <img
+                alt="image"
+                src="https://lh3.googleusercontent.com/pw/AP1GczO-L0EM6OHLGwtEX-OlxyDs7mDPwIO5t6vgdQEjBI1D6sIBNTBRPPUWLgcgYlVSa7rQASHyFACUferGR_FR7I-CjkVxcgn1NtI9keEi1swp6WIH8b_aAL0C5ffzTlzqVpBmzsckqjTlyqZvTFq95hiI=w2560-h1152-s-no-gm?authuser=0"
+                class="gallery-card1-image"
+              />
+              <h2 class="gallery-card1-text"><span>RAPORT S1</span></h2>
+            </div>
+            <div
+              class="gallery-card1-gallery-card gallery-card1-root-class-name3"
+            >
+              <img
+                alt="image"
+                src="https://lh3.googleusercontent.com/pw/AP1GczPrlbWo7zJqRI1GbH5yp3SiWIMap7xpcGDDReOoh1cB4o1xP_UBMu-5m7hwIkDPdXe3RV6JSSwkybP7ZnIXJFHtX_3y7uVS3G2T3LiZwLuxTFBzKqTJB7JVC7GVvIaKv9W-20yyASDQ73VmwUyKekTd=w951-h1268-s-no-gm?authuser=0"
+                class="gallery-card1-image"
+              />
+              <h2 class="gallery-card1-text"><span>ANJAS</span></h2>
+            </div>
+            <div
+              class="gallery-card1-gallery-card gallery-card1-root-class-name4"
+            >
+              <img
+                alt="image"
+                src="https://lh3.googleusercontent.com/pw/AP1GczO991DEdVqjv2RL3IHrKTdV5MUU7tQ1nYrV-1iXYW2xtQRby60_xTaf06yTK4nNu-pcJS3mRPC5UFlZE_Ejz-zlfeqktq9CeBPz-SgIWjo5kIEijyctSuoNqPJUQiDfjHetmXSo-eEhQsDirLqm6az9=w665-h997-s-no-gm?authuser=1"
+                class="gallery-card1-image"
+              />
+              <h2 class="gallery-card1-text"><span>GEBYAR</span></h2>
+            </div>
+            <div
+              class="gallery-card1-gallery-card gallery-card1-root-class-name5"
+            >
+              <img
+                alt="image"
+                src="https://lh3.googleusercontent.com/pw/AP1GczO4a5ZTMf7krxuIx3TdOf5l1WKz9QjfZPEVc4PJS00gIOIsHD2MMA6Oxn7GsGBMnkUZS-iQj9S_KbM7m8Ay22oEIMSFErqWP9rBvyqP3QezuzlGTjED9L_UARqE6_T2OgZbbUe7YEP-Qu6f__MAoxjL=w951-h1268-s-no-gm?authuser=0"
+                class="gallery-card1-image"
+              />
+              <h2 class="gallery-card1-text"><span>CALEUY</span></h2>
+            </div>
+          </div>
+        </section>
+        <footer class="home-footer">
+          <a href="#home" class="home-link16">
+            <img
+              id="bottom"
+              alt="logo"
+              src="public/pplg-oneadas-1500h.png"
+              class="home-image09"
+            />
+          </a>
+          <span class="home-text29">
+            <span>Made with love by</span>
+            <a href="#f4del" class="home-link17">Muhammad Fadel Alexander</a>
+          </span>
+          <div class="home-icon-group">
+            <a
+              href="https://www.instagram.com/pplg.one_anestar?igsh=ZmtoMTlmcmxqYmNo"
+              target="_blank"
+              rel="noreferrer noopener"
+              class="home-link18"
+            >
+              <svg viewBox="0 0 877.7142857142857 1024" class="home-icon10">
+                <path
+                  d="M585.143 512c0-80.571-65.714-146.286-146.286-146.286s-146.286 65.714-146.286 146.286 65.714 146.286 146.286 146.286 146.286-65.714 146.286-146.286zM664 512c0 124.571-100.571 225.143-225.143 225.143s-225.143-100.571-225.143-225.143 100.571-225.143 225.143-225.143 225.143 100.571 225.143 225.143zM725.714 277.714c0 29.143-23.429 52.571-52.571 52.571s-52.571-23.429-52.571-52.571 23.429-52.571 52.571-52.571 52.571 23.429 52.571 52.571zM438.857 152c-64 0-201.143-5.143-258.857 17.714-20 8-34.857 17.714-50.286 33.143s-25.143 30.286-33.143 50.286c-22.857 57.714-17.714 194.857-17.714 258.857s-5.143 201.143 17.714 258.857c8 20 17.714 34.857 33.143 50.286s30.286 25.143 50.286 33.143c57.714 22.857 194.857 17.714 258.857 17.714s201.143 5.143 258.857-17.714c20-8 34.857-17.714 50.286-33.143s25.143-30.286 33.143-50.286c22.857-57.714 17.714-194.857 17.714-258.857s5.143-201.143-17.714-258.857c-8-20-17.714-34.857-33.143-50.286s-30.286-25.143-50.286-33.143c-57.714-22.857-194.857-17.714-258.857-17.714zM877.714 512c0 60.571 0.571 120.571-2.857 181.143-3.429 70.286-19.429 132.571-70.857 184s-113.714 67.429-184 70.857c-60.571 3.429-120.571 2.857-181.143 2.857s-120.571 0.571-181.143-2.857c-70.286-3.429-132.571-19.429-184-70.857s-67.429-113.714-70.857-184c-3.429-60.571-2.857-120.571-2.857-181.143s-0.571-120.571 2.857-181.143c3.429-70.286 19.429-132.571 70.857-184s113.714-67.429 184-70.857c60.571-3.429 120.571-2.857 181.143-2.857s120.571-0.571 181.143 2.857c70.286 3.429 132.571 19.429 184 70.857s67.429 113.714 70.857 184c3.429 60.571 2.857 120.571 2.857 181.143z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script
+      defer=""
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+    <script
+      defer=""
+      src="https://unpkg.com/@teleporthq/react-components/dist/animate-on-reveal.umd.js"
+    ></script>
+  </body>
+</html>

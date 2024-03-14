@@ -1,0 +1,41 @@
+.component2-container {
+  display: flex;
+  position: relative;
+}
+.component2-image {
+  width: 1003px;
+  height: 1022px;
+  position: relative;
+  transform: rotate(-34deg);
+  object-fit: cover;
+}
+@media(max-width: 1440px) {
+  .component2-image {
+    right: -429px;
+    bottom: 776px;
+  }
+}
+@media(max-width: 1200px) {
+  .component2-image {
+    right: -513px;
+    bottom: 574px;
+  }
+}
+@media(max-width: 991px) {
+  .component2-image {
+    right: -660px;
+    bottom: 1193px;
+  }
+}
+@media(max-width: 767px) {
+  .component2-image {
+    left: 137px;
+    bottom: 857px;
+  }
+}
+@media(max-width: 479px) {
+  .component2-image {
+    left: -7px;
+    bottom: -14px;
+  }
+}
