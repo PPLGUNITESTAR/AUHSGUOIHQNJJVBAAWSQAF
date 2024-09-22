@@ -1,3 +1,5 @@
+Baik, mari kita satukan semua langkah pengembangan aplikasi web CRUD e-commerce yang telah dibahas sebelumnya, termasuk semua perbaikan terbaru dan fitur tambahan. Panduan ini akan mencakup **Next.js 14**, **TypeScript**, **Bun**, **MariaDB** di **Laragon**, **Shadcn** sebagai penyedia komponen UI, dan **Tailwind CSS** dengan palet warna khusus. Selain itu, kita juga akan menerapkan fitur-fitur tambahan seperti **halaman registrasi yang lebih menarik**, **navigasi bawah untuk versi mobile**, dan **tampilan responsif** untuk semua perangkat.
+
 ## **1. Persiapan Lingkungan**
 
 Sebelum memulai, pastikan Anda telah menginstal hal-hal berikut:
@@ -28,13 +30,11 @@ cd ecommerce-app
 
 ### **c. Instalasi Dependensi**
 
-Kita akan menggunakan **`mysql2`** untuk menghubungkan ke MariaDB, **`dotenv`** untuk manajemen variabel lingkungan, dan **Shadcn** untuk komponen UI. Selain itu, kita akan menginstal **`classnames`** untuk mengelola kelas CSS kondisional, **`react-toastify`** untuk notifikasi, dan **`bcryptjs`** serta **`jsonwebtoken`** untuk autentikasi.
+Kita akan menggunakan beberapa dependensi tambahan untuk fungsionalitas aplikasi:
 
 ```bash
-bun add mysql2 dotenv classnames react-toastify bcryptjs jsonwebtoken
+bun add mysql2 dotenv classnames react-toastify bcryptjs jsonwebtoken @heroicons/react
 ```
-
-Untuk komponen Shadcn, kita akan mengaturnya secara manual karena tidak ada paket resmi.
 
 ## **3. Mengkonfigurasi Database MariaDB di Laragon**
 
@@ -66,10 +66,9 @@ CREATE TABLE products (
 
 ### **b. Menambahkan Data Admin**
 
-Masukkan data admin ke tabel `users` dengan password yang di-hash. Anda bisa menggunakan skrip berikut di Node.js untuk menghasilkan hash password:
+Masukkan data admin ke tabel `users` dengan password yang di-hash. Anda bisa menggunakan skrip berikut di Bun untuk menghasilkan hash password:
 
-```typescript
-// scripts/hashPassword.ts
+```typescript:src/scripts/hashPassword.ts
 import bcrypt from 'bcryptjs';
 
 const password = 'admin123';
@@ -81,14 +80,16 @@ bcrypt.hash(password, 10).then(hash => {
 Jalankan skrip tersebut menggunakan Bun:
 
 ```bash
-bun run scripts/hashPassword.ts
+bun run src/scripts/hashPassword.ts
 ```
 
 Salin hasil hash dan masukkan ke tabel `users`:
 
 ```sql
-INSERT INTO users (username, password, role) VALUES ('admin', 'hasil_hash_password', 'admin');
+INSERT INTO users (username, password, role) VALUES ('admin', 'HASUHASH', 'admin');
 ```
+
+Gantilah `'HASUHASH'` dengan hasil hash yang Anda peroleh dari skrip.
 
 ## **4. Mengatur Koneksi Database dengan `mysql2`**
 
@@ -117,7 +118,7 @@ export default pool;
 
 ### **b. Menyimpan Kredensial Database di Variabel Lingkungan**
 
-Buat file `.env.local` di root proyek Anda dan tambahkan kredensial database:
+Buat file `.env.local` di root proyek Anda dan tambahkan kredensial database serta `JWT_SECRET`:
 
 ```
 DB_HOST=localhost
@@ -148,7 +149,7 @@ bun tailwindcss init -p
 
 ### **b. Konfigurasi `tailwind.config.js`**
 
-Buka file `tailwind.config.js` dan modifikasi seperti berikut:
+Buka file `tailwind.config.js` dan modifikasi seperti berikut untuk menambahkan palet warna khusus dan pengaturan font:
 
 ```javascript:tailwind.config.js
 /** @type {import('tailwindcss').Config} */
@@ -158,11 +159,23 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'bg-color': '#f7efe3',
+        'inactive-bg': '#c3b9ab',
+        'icon-color': '#0d3c26',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'], // Ganti 'Inter' dengan font yang diinginkan
+      },
+    },
   },
   plugins: [],
 }
 ```
+
+**Komentar untuk Mengubah Font:**
+Untuk mengganti font aplikasi secara keseluruhan, ubah `fontFamily` di atas sesuai dengan font yang diinginkan. Anda dapat menambahkan font baru melalui Google Fonts atau sumber lainnya dan mengimpornya di `globals.css`.
 
 ### **c. Tambahkan Direktif Tailwind ke CSS Global**
 
@@ -172,11 +185,17 @@ Buka file `src/app/globals.css` dan tambahkan:
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Mengubah font aplikasi secara keseluruhan */
+/* Untuk mengganti font, ubah 'font-sans' dengan kelas font yang telah ditentukan di tailwind.config.js */
+body {
+  @apply font-sans;
+}
 ```
 
 ### **d. Mengatur Shadcn UI**
 
-Shadcn merupakan koleksi komponen UI yang estetis dan mudah dikustomisasi. Kita akan membuat komponen dasar seperti Button, Input, Label, dan Modal menggunakan Tailwind CSS.
+Kita akan membuat komponen dasar seperti Button, Input, Label, Modal, dan BottomNavigation menggunakan Tailwind CSS dengan skema warna yang telah ditentukan.
 
 #### **i. Membuat Komponen UI**
 
@@ -238,7 +257,7 @@ import classNames from 'classnames';
 interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
 
 export const Label: React.FC<LabelProps> = ({ className, ...props }) => (
-    <label className={classNames('text-sm font-medium', className)} {...props} />
+    <label className={classNames('text-sm font-medium text-icon-color', className)} {...props} />
 );
 ```
 
@@ -273,7 +292,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
     return ReactDOM.createPortal(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <div className={classNames('bg-white rounded-lg p-6 w-full max-w-md', 'bg-bg-color')}>
                 {children}
                 <Button variant="secondary" onClick={onClose} className="mt-4">
                     Tutup
@@ -285,43 +304,85 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 };
 ```
 
-#### **ii. Instalasi `classnames` dan `react-toastify`**
+**BottomNavigation.tsx**
 
-Sudah diinstal sebelumnya dengan perintah:
+```typescript:src/components/ui/bottomNavigation.tsx
+import React from 'react';
+import Link from 'next/link';
+import { HomeIcon, UserIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'; // Gunakan Heroicons untuk ikon monochrome
 
-```bash
-bun add classnames react-toastify
-```
-
-#### **iii. Menyiapkan Toast Notifications**
-
-Tambahkan `ToastContainer` ke dalam aplikasi Anda. Perbarui `src/app/layout.tsx`:
-
-```typescript:src/app/layout.tsx
-'use client';
-
-import '../globals.css';
-import { ReactNode } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-interface LayoutProps {
-    children: ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+export const BottomNavigation: React.FC = () => {
     return (
-        <>
-            {children}
-            <ToastContainer position="top-right" autoClose={3000} />
-        </>
+        <nav className="fixed bottom-0 left-0 right-0 bg-inactive-bg shadow-md md:hidden">
+            <ul className="flex justify-around">
+                <li>
+                    <Link href="/user">
+                        <a className="flex flex-col items-center py-2">
+                            <HomeIcon className="h-6 w-6 text-icon-color" />
+                            <span className="text-xs text-icon-color">Home</span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/cart">
+                        <a className="flex flex-col items-center py-2">
+                            <ShoppingCartIcon className="h-6 w-6 text-icon-color" />
+                            <span className="text-xs text-icon-color">Keranjang</span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/profile">
+                        <a className="flex flex-col items-center py-2">
+                            <UserIcon className="h-6 w-6 text-icon-color" />
+                            <span className="text-xs text-icon-color">Profil</span>
+                        </a>
+                    </Link>
+                </li>
+            </ul>
+        </nav>
     );
 };
-
-export default Layout;
 ```
 
-## **6. Membuat API Routes untuk CRUD Produk dan Autentikasi**
+**Komentar untuk Mengubah Font:**
+Untuk memudahkan pengubahan font aplikasi secara keseluruhan, berikut adalah petunjuk pada kode:
+
+### **tailwind.config.js**
+
+```javascript:tailwind.config.js
+// ...
+theme: {
+  extend: {
+    // Menambahkan font kustom
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'], // Ganti 'Inter' dengan font yang diinginkan
+    },
+    // Tambahkan pengaturan warna lain jika diperlukan
+  },
+},
+// ...
+```
+
+### **globals.css**
+
+```css:src/app/globals.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mengubah font aplikasi secara keseluruhan */
+/* Untuk mengganti font, ubah 'font-sans' dengan kelas font yang telah ditentukan di tailwind.config.js */
+body {
+  @apply font-sans;
+}
+```
+
+**Catatan:**
+- Jika ingin menggunakan font lain, tambahkan font tersebut melalui Google Fonts atau download dan impor ke proyek Anda.
+- Setelah menambahkan font baru, pastikan untuk memperbarui `fontFamily` di `tailwind.config.js` dan gunakan kelas Tailwind yang sesuai di `globals.css`.
+
+## **6. Membuat API Routes untuk CRUD Produk, Autentikasi, dan Registrasi**
 
 ### **a. Struktur Direktori API**
 
@@ -333,17 +394,17 @@ src/
 │   └── api/
 │       ├── auth/
 │       │   └── route.ts
+│       ├── register/
+│       │   └── route.ts
 │       └── products/
 │           ├── [id]/
 │           │   └── route.ts
 │           └── route.ts
 ```
 
-### **b. API Route untuk Autentikasi**
+### **b. API Route untuk Autentikasi (Login)**
 
-#### **i. Membuat API Route untuk Login**
-
-Buat file `route.ts` di `src/app/api/auth/`:
+**File:** `src/app/api/auth/route.ts`
 
 ```typescript:src/app/api/auth/route.ts
 import { NextResponse } from 'next/server';
@@ -385,7 +446,47 @@ export async function POST(request: Request) {
 }
 ```
 
-#### **ii. Membuat Middleware untuk Melindungi Route**
+### **c. API Route untuk Registrasi Pengguna**
+
+**File:** `src/app/api/register/route.ts`
+
+```typescript:src/app/api/register/route.ts
+import { NextResponse } from 'next/server';
+import pool from '../../../lib/db';
+import bcrypt from 'bcryptjs';
+
+export async function POST(request: Request) {
+    try {
+        const { username, password } = await request.json();
+
+        if (!username || !password) {
+            return NextResponse.json({ error: 'Username dan password wajib diisi.' }, { status: 400 });
+        }
+
+        // Cek apakah username sudah ada
+        const [existingUsers]: any = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        if (existingUsers.length > 0) {
+            return NextResponse.json({ error: 'Username sudah digunakan.' }, { status: 409 });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Tambahkan pengguna baru
+        await pool.query(
+            'INSERT INTO users (username, password, role) VALUES (?, ?, ?)',
+            [username, hashedPassword, 'user']
+        );
+
+        return NextResponse.json({ message: 'Registrasi berhasil.' }, { status: 201 });
+    } catch (error: any) {
+        console.error('Error:', error);
+        return NextResponse.json({ error: 'Gagal melakukan registrasi.' }, { status: 500 });
+    }
+}
+```
+
+### **d. Middleware untuk Melindungi Route Admin**
 
 Buat file `middleware.ts` di root proyek Anda untuk mengamankan route admin:
 
@@ -427,11 +528,11 @@ export const config = {
 
 **Catatan:** Pastikan untuk menambahkan `middleware.ts` di root proyek Anda.
 
-### **c. API Route untuk Mengelola Produk**
+### **e. API Route untuk Mengelola Produk**
 
 #### **i. Mengambil dan Menambahkan Produk**
 
-Buat file `route.ts` di `src/app/api/products/`:
+**File:** `src/app/api/products/route.ts`
 
 ```typescript:src/app/api/products/route.ts
 import { NextResponse } from 'next/server';
@@ -488,7 +589,7 @@ export async function POST(request: Request) {
 
 #### **ii. Mengambil, Memperbarui, dan Menghapus Produk Berdasarkan ID**
 
-Buat file `route.ts` di `src/app/api/products/[id]/`:
+**File:** `src/app/api/products/[id]/route.ts`
 
 ```typescript:src/app/api/products/[id]/route.ts
 import { NextResponse } from 'next/server';
@@ -535,7 +636,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             return NextResponse.json({ error: 'Produk tidak ditemukan.' }, { status: 404 });
         }
 
-        // Update produk
+        // Perbarui produk
         await pool.query(
             'UPDATE products SET name = ?, description = ?, price = ?, updated_at = NOW() WHERE id = ?',
             [name, description || null, price, id]
@@ -577,15 +678,11 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 }
 ```
 
-### **d. API Route untuk Mendaftarkan Pengguna (Opsional)**
-
-Jika Anda ingin menyediakan fitur registrasi pengguna, Anda bisa menambahkan API route berikut. Namun, dalam contoh ini kita fokus pada login dan admin management.
-
-## **7. Membuat Halaman Admin dan Pengguna**
+## **7. Membuat Halaman Admin, Pengguna, Login, dan Registrasi**
 
 ### **a. Membuat Halaman Login**
 
-Buat file `src/app/login/page.tsx`:
+**File:** `src/app/login/page.tsx`
 
 ```typescript:src/app/login/page.tsx
 'use client';
@@ -616,11 +713,13 @@ const Login = () => {
             const data = await res.json();
 
             if (res.ok) {
-                document.cookie = `token=${data.token}; path=/`;
+                // Simpan token di localStorage atau cookie
+                // Dalam contoh ini, kita akan menggunakan cookie
+                document.cookie = `token=${data.token}; path=/;`;
                 toast.success('Login berhasil!');
                 router.push('/admin');
             } else {
-                toast.error(data.error || 'Gagal login.');
+                toast.error(data.error || 'Gagal melakukan login.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -631,9 +730,9 @@ const Login = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <form onSubmit={handleLogin} className="bg-white p-6 rounded-md shadow-md w-full max-w-sm">
-                <h2 className="text-2xl font-semibold mb-4">Login Admin</h2>
+        <div className="flex items-center justify-center min-h-screen bg-bg-color">
+            <form onSubmit={handleLogin} className="bg-inactive-bg p-6 rounded-md shadow-md w-full max-w-sm">
+                <h2 className="text-2xl font-semibold mb-4 text-icon-color">Login Admin</h2>
                 <div className="mb-4">
                     <Label htmlFor="username">Username</Label>
                     <Input
@@ -656,9 +755,15 @@ const Login = () => {
                         placeholder="Masukkan password"
                     />
                 </div>
-                <Button type="submit" disabled={loading}>
+                <Button type="submit" disabled={loading} className="w-full">
                     {loading ? 'Proses...' : 'Login'}
                 </Button>
+                <p className="mt-4 text-center text-icon-color">
+                    Belum memiliki akun?{' '}
+                    <a href="/register" className="text-blue-500 hover:underline">
+                        Register di sini
+                    </a>
+                </p>
             </form>
         </div>
     );
@@ -667,9 +772,114 @@ const Login = () => {
 export default Login;
 ```
 
-### **b. Membuat Halaman Admin**
+### **b. Membuat Halaman Registrasi**
 
-Buat folder `src/app/admin/` dan buat file `page.tsx`:
+**File:** `src/app/register/page.tsx`
+
+```typescript:src/app/register/page.tsx
+'use client';
+
+import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { toast } from 'react-toastify';
+
+const Register = () => {
+    const router = useRouter();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleRegister = async (e: FormEvent) => {
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            toast.error('Password dan konfirmasi password tidak cocok.');
+            return;
+        }
+        setLoading(true);
+        try {
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success('Registrasi berhasil! Silakan login.');
+                router.push('/login');
+            } else {
+                toast.error(data.error || 'Gagal melakukan registrasi.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('Terjadi kesalahan saat registrasi.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-bg-color">
+            <form onSubmit={handleRegister} className="bg-inactive-bg p-6 rounded-md shadow-md w-full max-w-sm">
+                <h2 className="text-2xl font-semibold mb-4 text-icon-color">Register Pengguna</h2>
+                <div className="mb-4">
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                        id="username"
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        placeholder="Masukkan username"
+                    />
+                </div>
+                <div className="mb-4">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        placeholder="Masukkan password"
+                    />
+                </div>
+                <div className="mb-4">
+                    <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
+                    <Input
+                        id="confirmPassword"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        placeholder="Ulangi password"
+                    />
+                </div>
+                <Button type="submit" disabled={loading} className="w-full">
+                    {loading ? 'Proses...' : 'Register'}
+                </Button>
+                <p className="mt-4 text-center text-icon-color">
+                    Sudah memiliki akun?{' '}
+                    <a href="/login" className="text-blue-500 hover:underline">
+                        Login di sini
+                    </a>
+                </p>
+            </form>
+        </div>
+    );
+};
+
+export default Register;
+```
+
+### **c. Membuat Halaman Admin**
+
+**File:** `src/app/admin/page.tsx`
 
 ```typescript:src/app/admin/page.tsx
 'use client';
@@ -717,52 +927,44 @@ const Admin = () => {
             const res = await fetch('/api/products');
             const data: Product[] = await res.json();
             setProducts(data);
-            setLoading(false);
         } catch (error) {
             console.error('Gagal mengambil produk:', error);
+            toast.error('Terjadi kesalahan saat mengambil produk.');
+        } finally {
             setLoading(false);
         }
     };
 
-    const getToken = () => {
-        const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
-        if (match) return match[2];
-        return null;
-    };
-
-    const addProduct = async (e: FormEvent) => {
+    const handleAddProduct = async (e: FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         try {
             const token = getToken();
-            if (!token) {
-                toast.error('Token tidak ditemukan. Silakan login lagi.');
-                router.push('/login');
-                return;
-            }
-
             const res = await fetch('/api/products', {
                 method: 'POST',
-                headers: {
+                headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ name, description, price }),
             });
 
+            const data = await res.json();
+
             if (res.ok) {
-                const newProduct: Product = await res.json();
-                setProducts([...products, newProduct]);
+                toast.success('Produk berhasil ditambahkan.');
+                setProducts([...products, data]);
                 setName('');
                 setDescription('');
                 setPrice(0);
-                toast.success('Produk berhasil ditambahkan!');
             } else {
-                const errorData = await res.json();
-                toast.error(errorData.error || 'Gagal menambahkan produk.');
+                toast.error(data.error || 'Gagal menambahkan produk.');
             }
         } catch (error) {
-            console.error('Gagal menambahkan produk:', error);
+            console.error('Error:', error);
             toast.error('Terjadi kesalahan saat menambahkan produk.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -779,91 +981,88 @@ const Admin = () => {
         setCurrentProduct(null);
     };
 
-    const updateProduct = async (e: FormEvent) => {
+    const handleEditProduct = async (e: FormEvent) => {
         e.preventDefault();
         if (!currentProduct) return;
+        setEditLoading(true);
         try {
-            setEditLoading(true);
             const token = getToken();
-            if (!token) {
-                toast.error('Token tidak ditemukan. Silakan login lagi.');
-                router.push('/login');
-                return;
-            }
-
             const res = await fetch(`/api/products/${currentProduct.id}`, {
                 method: 'PUT',
-                headers: {
+                headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ name: editName, description: editDescription, price: editPrice }),
             });
 
+            const data = await res.json();
+
             if (res.ok) {
-                setProducts(products.map(p => p.id === currentProduct.id ? { ...p, name: editName, description: editDescription, price: editPrice } : p));
-                toast.success('Produk berhasil diperbarui!');
+                toast.success('Produk berhasil diperbarui.');
+                setProducts(products.map(prod => prod.id === currentProduct.id ? { ...prod, name: editName, description: editDescription, price: editPrice } : prod));
                 closeEditModal();
             } else {
-                const errorData = await res.json();
-                toast.error(errorData.error || 'Gagal memperbarui produk.');
+                toast.error(data.error || 'Gagal memperbarui produk.');
             }
         } catch (error) {
-            console.error('Gagal memperbarui produk:', error);
+            console.error('Error:', error);
             toast.error('Terjadi kesalahan saat memperbarui produk.');
         } finally {
             setEditLoading(false);
         }
     };
 
-    const deleteProduct = async (id: number) => {
+    const handleDeleteProduct = async (id: number) => {
         if (!confirm('Apakah Anda yakin ingin menghapus produk ini?')) return;
         try {
             const token = getToken();
-            if (!token) {
-                toast.error('Token tidak ditemukan. Silakan login lagi.');
-                router.push('/login');
-                return;
-            }
-
             const res = await fetch(`/api/products/${id}`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
+                headers: { 
+                    'Authorization': `Bearer ${token}`
                 },
             });
 
+            const data = await res.json();
+
             if (res.ok) {
-                setProducts(products.filter(p => p.id !== id));
-                toast.success('Produk berhasil dihapus!');
+                toast.success('Produk berhasil dihapus.');
+                setProducts(products.filter(prod => prod.id !== id));
             } else {
-                const errorData = await res.json();
-                toast.error(errorData.error || 'Gagal menghapus produk.');
+                toast.error(data.error || 'Gagal menghapus produk.');
             }
         } catch (error) {
-            console.error('Gagal menghapus produk:', error);
+            console.error('Error:', error);
             toast.error('Terjadi kesalahan saat menghapus produk.');
         }
     };
 
-    const logout = () => {
-        document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        router.push('/login');
+    const getToken = (): string => {
+        if (typeof window !== 'undefined') {
+            const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+            if (match) return match[2];
+        }
+        return '';
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4">
+        <div className="min-h-screen bg-bg-color p-4">
             <header className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-                <Button variant="destructive" onClick={logout}>
+                <h1 className="text-3xl font-bold text-icon-color">Admin Dashboard</h1>
+                <Button variant="outline" onClick={() => {
+                    // Hapus token dan redirect ke login
+                    document.cookie = 'token=; Max-Age=0; path=/;';
+                    router.push('/login');
+                }}>
                     Logout
                 </Button>
             </header>
 
             <section className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Tambah Produk Baru</h2>
-                <form onSubmit={addProduct} className="space-y-4 bg-white p-6 rounded-md shadow-md">
-                    <div>
+                <form onSubmit={handleAddProduct} className="bg-inactive-bg p-4 rounded-md shadow-md">
+                    <h2 className="text-xl font-semibold mb-4 text-icon-color">Tambah Produk Baru</h2>
+                    <div className="mb-4">
                         <Label htmlFor="name">Nama Produk</Label>
                         <Input
                             id="name"
@@ -874,7 +1073,7 @@ const Admin = () => {
                             placeholder="Masukkan nama produk"
                         />
                     </div>
-                    <div>
+                    <div className="mb-4">
                         <Label htmlFor="description">Deskripsi</Label>
                         <Input
                             id="description"
@@ -884,7 +1083,7 @@ const Admin = () => {
                             placeholder="Masukkan deskripsi produk"
                         />
                     </div>
-                    <div>
+                    <div className="mb-4">
                         <Label htmlFor="price">Harga</Label>
                         <Input
                             id="price"
@@ -897,43 +1096,53 @@ const Admin = () => {
                             step="0.01"
                         />
                     </div>
-                    <Button type="submit">Tambah Produk</Button>
+                    <Button type="submit" disabled={loading}>
+                        {loading ? 'Menambahkan...' : 'Tambah Produk'}
+                    </Button>
                 </form>
             </section>
 
             <section>
-                <h2 className="text-2xl font-semibold mb-4">Daftar Produk</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-icon-color">Daftar Produk</h2>
                 {loading ? (
-                    <p>Memuat...</p>
+                    <p className="text-icon-color">Memuat produk...</p>
                 ) : (
-                    <ul className="space-y-4">
-                        {products.map((product) => (
-                            <li key={product.id} className="bg-white p-4 rounded-md shadow-md flex justify-between items-center">
-                                <div>
-                                    <h3 className="text-xl font-bold">{product.name}</h3>
-                                    <p>{product.description}</p>
-                                    <p className="font-semibold">Harga: Rp {product.price.toFixed(2)}</p>
-                                </div>
-                                <div className="space-x-2">
-                                    <Button variant="secondary" onClick={() => openEditModal(product)}>
-                                        Edit
-                                    </Button>
-                                    <Button variant="destructive" onClick={() => deleteProduct(product.id)}>
-                                        Hapus
-                                    </Button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <table className="w-full bg-inactive-bg rounded-md shadow-md">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 text-left">Nama</th>
+                                <th className="px-4 py-2 text-left">Deskripsi</th>
+                                <th className="px-4 py-2 text-left">Harga</th>
+                                <th className="px-4 py-2 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map(product => (
+                                <tr key={product.id} className="border-t border-icon-color">
+                                    <td className="px-4 py-2">{product.name}</td>
+                                    <td className="px-4 py-2">{product.description}</td>
+                                    <td className="px-4 py-2">Rp {product.price.toFixed(2)}</td>
+                                    <td className="px-4 py-2 text-center">
+                                        <Button variant="outline" onClick={() => openEditModal(product)} className="mr-2">
+                                            Edit
+                                        </Button>
+                                        <Button variant="destructive" onClick={() => handleDeleteProduct(product.id)}>
+                                            Hapus
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 )}
             </section>
 
-            {/* Modal Edit Produk */}
+            {/* Modal Edit */}
             {isEditOpen && currentProduct && (
                 <Modal isOpen={isEditOpen} onClose={closeEditModal}>
-                    <h2 className="text-2xl font-semibold mb-4">Edit Produk</h2>
-                    <form onSubmit={updateProduct} className="space-y-4">
-                        <div>
+                    <form onSubmit={handleEditProduct} className="flex flex-col">
+                        <h2 className="text-xl font-semibold mb-4 text-icon-color">Edit Produk</h2>
+                        <div className="mb-4">
                             <Label htmlFor="edit-name">Nama Produk</Label>
                             <Input
                                 id="edit-name"
@@ -944,7 +1153,7 @@ const Admin = () => {
                                 placeholder="Masukkan nama produk"
                             />
                         </div>
-                        <div>
+                        <div className="mb-4">
                             <Label htmlFor="edit-description">Deskripsi</Label>
                             <Input
                                 id="edit-description"
@@ -954,7 +1163,7 @@ const Admin = () => {
                                 placeholder="Masukkan deskripsi produk"
                             />
                         </div>
-                        <div>
+                        <div className="mb-4">
                             <Label htmlFor="edit-price">Harga</Label>
                             <Input
                                 id="edit-price"
@@ -985,9 +1194,9 @@ const Admin = () => {
 export default Admin;
 ```
 
-### **c. Membuat Halaman Pengguna**
+### **d. Membuat Halaman Pengguna**
 
-Buat file `src/app/user/page.tsx`:
+**File:** `src/app/user/page.tsx`
 
 ```typescript:src/app/user/page.tsx
 'use client';
@@ -1031,10 +1240,10 @@ const User = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4">
+        <div className="min-h-screen bg-bg-color p-4">
             <header className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">E-commerce Store</h1>
-                <Button variant="secondary" onClick={() => { /* Implementasi Keranjang Belanja */ }}>
+                <h1 className="text-3xl font-bold text-icon-color">E-commerce Store</h1>
+                <Button variant="outline" onClick={() => { /* Implementasi Keranjang Belanja */ }}>
                     Keranjang
                 </Button>
             </header>
@@ -1045,23 +1254,27 @@ const User = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Cari produk..."
-                    className="w-full max-w-md"
+                    className="w-full max-w-md bg-inactive-bg"
                 />
             </section>
 
             <section>
                 {filteredProducts.length === 0 ? (
-                    <p>Tidak ada produk yang ditemukan.</p>
+                    <p className="text-icon-color">Tidak ada produk yang ditemukan.</p>
                 ) : (
-                    <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredProducts.map(product => (
-                            <li key={product.id} className="bg-white p-4 rounded-md shadow-md">
-                                <h3 className="text-xl font-bold mb-2">{product.name}</h3>
-                                <p className="mb-2">{product.description}</p>
-                                <p className="font-semibold mb-4">Harga: Rp {product.price.toFixed(2)}</p>
-                                <Button variant="default" onClick={() => { /* Implementasi Tambah ke Keranjang */ }}>
-                                    Beli
-                                </Button>
+                            <li key={product.id} className="bg-inactive-bg p-4 rounded-md shadow-md flex flex-col justify-between">
+                                <div>
+                                    <h3 className="text-xl font-bold text-icon-color">{product.name}</h3>
+                                    <p className="text-icon-color mt-2">{product.description}</p>
+                                </div>
+                                <div className="mt-4">
+                                    <p className="font-semibold text-icon-color">Harga: Rp {product.price.toFixed(2)}</p>
+                                    <Button variant="default" className="mt-2" onClick={() => { /* Implementasi Tambah ke Keranjang */ }}>
+                                        Beli
+                                    </Button>
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -1074,54 +1287,198 @@ const User = () => {
 export default User;
 ```
 
-### **d. Menambahkan Routing untuk Halaman Admin dan Pengguna**
+## **8. Menambahkan Navigasi Bawah untuk Versi Mobile**
 
-Pastikan Anda memiliki navigasi yang sesuai antara halaman admin dan pengguna. Anda bisa menambahkan link di header atau membuat halaman utama dengan navigasi.
+### **a. Membuat Komponen BottomNavigation**
 
-## **8. Menambahkan Validasi Input dan Penanganan Error**
+**File:** `src/components/ui/bottomNavigation.tsx`
 
-### **a. Validasi Input di Frontend**
+```typescript:src/components/ui/bottomNavigation.tsx
+import React from 'react';
+import Link from 'next/link';
+import { HomeIcon, UserIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'; // Gunakan Heroicons untuk ikon monochrome
 
-Sudah diterapkan melalui atribut `required`, `min`, dan `step` pada elemen input. Anda bisa menambahkan lebih banyak validasi sesuai kebutuhan, seperti regex untuk format tertentu.
+export const BottomNavigation: React.FC = () => {
+    return (
+        <nav className="fixed bottom-0 left-0 right-0 bg-inactive-bg shadow-md md:hidden">
+            <ul className="flex justify-around">
+                <li>
+                    <Link href="/user">
+                        <a className="flex flex-col items-center py-2">
+                            <HomeIcon className="h-6 w-6 text-icon-color" />
+                            <span className="text-xs text-icon-color">Home</span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/cart">
+                        <a className="flex flex-col items-center py-2">
+                            <ShoppingCartIcon className="h-6 w-6 text-icon-color" />
+                            <span className="text-xs text-icon-color">Keranjang</span>
+                        </a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/profile">
+                        <a className="flex flex-col items-center py-2">
+                            <UserIcon className="h-6 w-6 text-icon-color" />
+                            <span className="text-xs text-icon-color">Profil</span>
+                        </a>
+                    </Link>
+                </li>
+            </ul>
+        </nav>
+    );
+};
+```
 
-### **b. Validasi Input di Backend**
+**Catatan:**
+Pastikan Anda telah menginstal `@heroicons/react`:
 
-Sudah diterapkan dengan memeriksa apakah `name` dan `price` diisi sebelum menambahkan atau memperbarui produk.
+```bash
+bun add @heroicons/react
+```
 
-### **c. Penanganan Error**
+### **b. Menambahkan BottomNavigation ke Layout**
 
-Penanganan error sudah diterapkan di seluruh API routes dengan mengembalikan pesan error yang sesuai dan status HTTP yang tepat. Di frontend, error ditampilkan menggunakan `react-toastify` untuk notifikasi.
+Update file `src/app/layout.tsx` untuk menyertakan komponen navigasi bawah.
 
-## **9. Implementasi Autentikasi dan Otorisasi**
+```typescript:src/app/layout.tsx
+'use client';
 
-Autentikasi dilakukan menggunakan JWT. Token disimpan dalam cookie dan diverifikasi di setiap request ke API routes yang memerlukan autentikasi, terutama untuk route admin.
+import '../globals.css';
+import { ReactNode } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { BottomNavigation } from '@/components/ui/bottomNavigation';
 
-### **a. Menambahkan Middleware**
+interface LayoutProps {
+    children: ReactNode;
+}
 
-Sudah dibuat di bagian sebelumnya (`middleware.ts`) untuk melindungi route admin.
+const Layout = ({ children }: LayoutProps) => {
+    return (
+        <>
+            {children}
+            <ToastContainer position="top-right" autoClose={3000} />
+            <BottomNavigation />
+        </>
+    );
+};
 
-### **b. Menjaga Keamanan JWT**
+export default Layout;
+```
 
-Pastikan `JWT_SECRET` di file `.env.local` adalah string yang kuat dan rahasia. Jangan membagikan atau mempublikasikannya.
+## **9. Menjamin Responsivitas untuk Semua Perangkat**
 
-## **10. Menjalankan Aplikasi**
+Tailwind CSS menyediakan utilitas responsif yang dapat digunakan untuk menyesuaikan tampilan aplikasi di berbagai perangkat. Pastikan Anda menggunakan kelas responstif seperti `sm:`, `md:`, `lg:`, dan `xl:` sesuai kebutuhan.
 
-Setelah semua langkah di atas selesai, jalankan server pengembangan dengan Bun:
+**Contoh:**
+
+```html
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Konten -->
+</div>
+```
+
+Selain itu, pastikan komponen seperti navigasi bawah hanya terlihat pada perangkat mobile dengan menggunakan kelas Tailwind berikut:
+
+```html
+<nav className="fixed bottom-0 left-0 right-0 bg-inactive-bg shadow-md md:hidden">
+    <!-- Konten Navigasi -->
+</nav>
+```
+
+## **10. Hierarki Folder Proyek Terbaru**
+
+Berikut adalah struktur folder lengkap setelah melakukan pembaruan:
+
+```
+ecommerce-app/
+├── node_modules/
+├── public/
+│   ├── favicon.ico
+│   └── ...
+├── src/
+│   ├── app/
+│   │   ├── admin/
+│   │   │   └── page.tsx
+│   │   ├── auth/
+│   │   │   └── route.ts
+│   │   ├── register/
+│   │   │   └── route.ts
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   ├── user/
+│   │   │   └── page.tsx
+│   │   ├── cart/
+│   │   │   └── page.tsx
+│   │   ├── profile/
+│   │   │   └── page.tsx
+│   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   │   └── route.ts
+│   │   │   ├── register/
+│   │   │   │   └── route.ts
+│   │   │   └── products/
+│   │   │       ├── [id]/
+│   │   │       │   └── route.ts
+│   │   │       └── route.ts
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   └── ui/
+│   │       ├── button.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── modal.tsx
+│   │       └── bottomNavigation.tsx
+│   ├── lib/
+│   │   └── db.ts
+│   ├── scripts/
+│   │   └── hashPassword.ts
+│   └── ...
+├── styles/
+│   └── ...
+├── .env.local
+├── .gitignore
+├── middleware.ts
+├── package.json
+├── tailwind.config.js
+├── postcss.config.js
+├── tsconfig.json
+└── bun.lockb
+```
+
+### **Penjelasan Struktur Folder:**
+
+- **`src/app/register/`**: Berisi API route dan halaman registrasi pengguna.
+- **`src/components/ui/bottomNavigation.tsx`**: Komponen navigasi bawah untuk perangkat mobile.
+- **`src/app/api/register/route.ts`**: API route untuk registrasi pengguna.
+- **`tailwind.config.js`**: Telah diperbarui dengan palet warna khusus dan pengaturan font.
+- **`globals.css`**: Telah diperbarui untuk menggunakan font kustom secara keseluruhan.
+
+## **11. Menjalankan Aplikasi**
+
+Setelah melakukan semua pembaruan di atas, jalankan aplikasi Anda dengan perintah berikut:
 
 ```bash
 bun dev
 ```
 
-Buka browser dan navigasikan ke `http://localhost:3000` untuk melihat aplikasi e-commerce Anda berfungsi.
+Buka browser dan navigasikan ke:
 
 - **Halaman Pengguna:** `http://localhost:3000/user`
 - **Halaman Admin:** `http://localhost:3000/admin`
 - **Halaman Login Admin:** `http://localhost:3000/login`
+- **Halaman Registrasi Pengguna:** `http://localhost:3000/register`
 
-## **11. Alur Keseluruhan Aplikasi**
+## **12. Alur Keseluruhan Aplikasi yang Lebih Kokoh**
 
 1. **Frontend (Next.js dengan Shadcn UI):**
-    - Pengguna mengakses halaman pengguna untuk melihat dan mencari produk.
+    - Pengguna mengakses halaman pengguna untuk melihat, mencari, dan membeli produk.
+    - Pengguna baru dapat mendaftar melalui halaman registrasi.
     - Admin mengakses halaman admin setelah login untuk mengelola produk (menambah, mengedit, menghapus).
 
 2. **API Route (Next.js):**
@@ -1147,110 +1504,27 @@ Buka browser dan navigasikan ke `http://localhost:3000` untuk melihat aplikasi e
 [ Database (MariaDB) ]
 ```
 
-## **12. Hierarki Folder Proyek**
-
-Berikut adalah struktur folder lengkap dari proyek CRUD e-commerce yang kokoh ini:
-
-```
-ecommerce-app/
-├── node_modules/
-├── public/
-│   ├── favicon.ico
-│   └── ...
-├── src/
-│   ├── app/
-│   │   ├── admin/
-│   │   │   └── page.tsx
-│   │   ├── auth/
-│   │   │   └── route.ts
-│   │   ├── login/
-│   │   │   └── page.tsx
-│   │   ├── user/
-│   │   │   └── page.tsx
-│   │   ├── api/
-│   │   │   ├── auth/
-│   │   │   │   └── route.ts
-│   │   │   └── products/
-│   │   │       ├── [id]/
-│   │   │       │   └── route.ts
-│   │   │       └── route.ts
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/
-│   │   └── ui/
-│   │       ├── button.tsx
-│   │       ├── input.tsx
-│   │       ├── label.tsx
-│   │       └── modal.tsx
-│   ├── lib/
-│   │   └── db.ts
-│   └── ...
-├── styles/
-│   └── ...
-├── scripts/
-│   └── hashPassword.ts
-├── .env.local
-├── .gitignore
-├── middleware.ts
-├── package.json
-├── tailwind.config.js
-├── postcss.config.js
-├── tsconfig.json
-└── bun.lockb
-```
-
-### **Penjelasan Struktur Folder:**
-
-- **`node_modules/`**: Berisi paket-paket dependensi yang diinstal.
-- **`public/`**: Berisi aset publik seperti favicon dan gambar.
-- **`src/`**: Sumber kode aplikasi.
-  - **`app/`**: Folder utama untuk halaman dan API.
-    - **`admin/`**: Halaman admin untuk mengelola produk.
-    - **`auth/`**: API routes untuk autentikasi.
-    - **`login/`**: Halaman login admin.
-    - **`user/`**: Halaman pengguna untuk melihat dan membeli produk.
-    - **`api/`**: Berisi API routes untuk autentikasi dan produk.
-      - **`auth/route.ts`**: API route untuk login.
-      - **`products/`**: API routes untuk mengelola produk.
-        - **`[id]/route.ts`**: API route untuk operasi spesifik berdasarkan ID produk (GET, PUT, DELETE).
-        - **`route.ts`**: API route untuk operasi umum (GET all, POST).
-    - **`globals.css`**: CSS global untuk Tailwind.
-    - **`layout.tsx`**: Layout utama aplikasi, termasuk pengaturan ToastContainer.
-    - **`page.tsx`**: Halaman utama (bisa diarahkan ke pengguna atau admin).
-  - **`components/ui/`**: Komponen UI yang dibuat menggunakan Shadcn.
-    - **`button.tsx`**, **`input.tsx`**, **`label.tsx`**, **`modal.tsx`**: Komponen UI yang dapat digunakan ulang.
-  - **`lib/`**: Library atau helper functions.
-    - **`db.ts`**: Konfigurasi koneksi database menggunakan `mysql2`.
-  - **`scripts/`**: Skrip tambahan, seperti untuk meng-hash password.
-    - **`hashPassword.ts`**: Skrip untuk menghasilkan hash password.
-- **`styles/`**: Berisi file CSS tambahan jika diperlukan.
-- **`.env.local`**: File variabel lingkungan untuk menyimpan kredensial database dan JWT.
-- **`.gitignore`**: Mengabaikan file atau folder tertentu saat menggunakan Git.
-- **`middleware.ts`**: Middleware untuk melindungi route admin.
-- **`package.json`**: File manajemen dependensi dan skrip.
-- **`tailwind.config.js`**: Konfigurasi Tailwind CSS.
-- **`postcss.config.js`**: Konfigurasi PostCSS.
-- **`tsconfig.json`**: Konfigurasi TypeScript.
-- **`bun.lockb`**: Lockfile Bun untuk memastikan versi dependensi konsisten.
-
 ## **13. Penutup**
 
-Dengan mengikuti langkah-langkah di atas, Anda telah berhasil membuat aplikasi CRUD e-commerce yang kokoh menggunakan **Next.js 14**, **TypeScript**, **Bun**, dan **MariaDB** sebagai database. Aplikasi ini memiliki fitur autentikasi, validasi input, penanganan error, serta halaman admin dan pengguna yang terpisah. **Shadcn** dan **Tailwind CSS** digunakan untuk memberikan tampilan yang estetis dan responsif.
+Dengan mengikuti langkah-langkah di atas, Anda telah berhasil membuat aplikasi CRUD e-commerce yang lebih kokoh, estetis, dan responsif menggunakan **Next.js 14**, **TypeScript**, **Bun**, dan **MariaDB** sebagai database. Aplikasi ini memiliki fitur autentikasi pengguna, halaman registrasi, navigasi bawah khusus untuk perangkat mobile, serta desain yang responsif untuk berbagai perangkat. **Shadcn** dan **Tailwind CSS** digunakan untuk memberikan tampilan yang konsisten dan menarik sesuai dengan palet warna yang telah ditentukan.
 
-### **Tips Tambahan yang Diterapkan:**
+### **Fitur Tambahan yang Diterapkan:**
 
 - **Validasi Input:** Validasi dilakukan baik di frontend menggunakan atribut HTML dan di backend dengan memeriksa kehadiran data yang diperlukan sebelum memproses request.
 - **Error Handling:** Penanganan error diterapkan di seluruh API routes dengan mengembalikan pesan error yang sesuai dan status HTTP yang tepat. Di frontend, error ditampilkan menggunakan `react-toastify` untuk notifikasi yang informatif.
-- **Styling:** Styling aplikatif dikembangkan menggunakan **Tailwind CSS** dan komponen UI dari **Shadcn** untuk tampilan yang konsisten dan menarik.
+- **Styling:** Styling aplikatif dikembangkan menggunakan **Tailwind CSS** dengan palet warna khusus dan komponen UI dari **Shadcn** untuk tampilan yang konsisten dan menarik.
 - **Autentikasi Pengguna:** Implementasi autentikasi menggunakan JWT untuk melindungi route admin dan memastikan hanya admin yang dapat mengelola produk.
 - **Halaman Admin dan Pengguna:** Terpisahnya halaman admin dan pengguna untuk memisahkan fungsi pengelolaan produk dari tampilan produk untuk pengguna umum.
+- **Navigasi Bawah untuk Mobile:** Menambahkan navigasi bawah khusus untuk perangkat mobile agar navigasi lebih mudah diakses.
+- **Responsivitas:** Memastikan tampilan aplikasi responsif di berbagai perangkat menggunakan utilitas responsif dari Tailwind CSS.
 
 ### **Fitur Tambahan yang Bisa Dikembangkan:**
 
-- **Autentikasi Lanjutan:** Menambahkan fitur registrasi pengguna, reset password, dan profil pengguna.
-- **Keranjang Belanja:** Implementasi fitur keranjang belanja untuk pengguna.
-- **Pembayaran:** Integrasi dengan layanan pembayaran seperti Stripe atau PayPal.
-- **Optimasi Performa:** Menggunakan teknik caching seperti SWR atau React Query untuk fetching data yang lebih efisien.
+- **Autentikasi Lanjutan:** Menambahkan fitur reset password, verifikasi email, dan profil pengguna.
+- **Keranjang Belanja:** Implementasi fitur keranjang belanja yang memungkinkan pengguna menambah produk sebelum melakukan pembelian.
+- **Pembayaran:** Integrasi dengan layanan pembayaran seperti Stripe atau PayPal untuk proses transaksi.
+- **Optimasi Performa:** Menggunakan teknik caching seperti SWR atau React Query untuk fetching data yang lebih efisien dan cepat.
 - **Testing:** Menambahkan unit tests dan integration tests untuk memastikan kualitas kode dan fungsionalitas aplikasi.
 - **Deployment:** Mengoptimalkan proses deployment ke platform produksi seperti Vercel, termasuk pengaturan variabel lingkungan yang aman dan skalabilitas aplikasi.
+
+Jika Anda mengalami kendala atau memiliki pertanyaan lebih lanjut, jangan ragu untuk menanyakannya!
